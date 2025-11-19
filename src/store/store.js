@@ -1,31 +1,34 @@
 import { create } from "zustand";
 
-export const useGameStore = create((set) => ({
-  level: "levelNP1",
-  results: [],
-  currentNodeIndex: 0,
+export const useGameStore = create((set, get) => ({
   nodes: [
-    { id: 1, name: "Узел 1", image: "/images/node1.jpg" },
-    { id: 2, name: "Узел 2", image: "/images/node2.jpg" },
-    { id: 3, name: "Узел 3", image: "/images/node3.jpg" },
+    { name: "Восьмерка", image: "/images/eight.jpg" },
+    { name: "Грейпвайн", image: "/images/grapewine.jpg" },
+    { name: "Стремя", image: "/images/stremya.jpg" },
+    // добавьте остальные узлы
   ],
-  setLevel: (lvl) => set({ level: lvl }),
-  startNode: () => set({ currentNodeIndex: 0 }),
+  currentNodeIndex: 0,
+  currentLevel: null,  // текущий узел
+  results: {},          // { levelNP1: [3.2, 4.1], levelNP2: [2.9] }
+
+  setLevel: (lvl) => set({ currentLevel: lvl }),
+
   nextNode: () =>
     set((state) => ({
       currentNodeIndex:
         state.currentNodeIndex + 1 < state.nodes.length
           ? state.currentNodeIndex + 1
-          : 0,
+          : state.currentNodeIndex,
     })),
-  addResult: (time) =>
+
+  addResult: (time) => {
+    const nodeKey = get().currentLevel;
+    if (!nodeKey) return; // защита
+    const prev = get().results[nodeKey] || [];
     set((state) => ({
-      results: [
-        ...state.results,
-        {
-          node: state.nodes[state.currentNodeIndex].name,
-          time,
-        },
-      ],
-    })),
+      results: { ...state.results, [nodeKey]: [...prev, parseFloat(time)] },
+    }));
+  },
+
+  resetGame: () => set({ currentNodeIndex: 0, currentLevel: null, results: {} }),
 }));

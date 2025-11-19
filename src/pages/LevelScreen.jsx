@@ -15,7 +15,7 @@ export default function LevelScreen() {
     <PageWrapper>
       <h1>Выберите уровень</h1>
 
-      <button onClick={() => handleLevelSelect("levelNP1")}>Лёгкий</button>
+      <button onClick={() => handleLevelSelect("levelNP1")}>Узлы по НП 1</button>
       <button onClick={() => handleLevelSelect("levelNP2")}>Средний</button>
     </PageWrapper>
   );

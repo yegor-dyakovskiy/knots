@@ -1,23 +1,45 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import PageWrapper from "../components/PageWrapper";
 import { useGameStore } from "../store/store";
+import { useNavigate } from "react-router-dom";
 
 export default function LevelNP1() {
-  const { nodes, currentNodeIndex, nextNode, addResult } = useGameStore();
+  const navigate = useNavigate();
+  const { nodes: originalNodes, currentNodeIndex, nextNode, addResult, setLevel } = useGameStore();
 
+  const [nodes, setNodes] = useState([]);
   const [showCountdown, setShowCountdown] = useState(true);
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(3);
   const [timer, setTimer] = useState(0);
-  const timerRef = useRef(null);       // секундомер
-  const countdownRef = useRef(null);   // отсчёт 5 секунд
+  const timerRef = useRef(null);
+  const countdownRef = useRef(null);
   const [showReadyButton, setShowReadyButton] = useState(false);
   const [lastResult, setLastResult] = useState(null);
 
-  const currentNode = nodes[currentNodeIndex];
+  // Рандомный порядок узлов один раз при старте
+useEffect(() => {
+  const timeout = setTimeout(() => {
+    const shuffled = [...originalNodes];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    setNodes(shuffled);
+  }, 0);
 
-  // Секундомер
-  const startTimer = () => {
-    clearInterval(timerRef.current); // очищаем старый, если есть
+  return () => clearTimeout(timeout);
+}, [originalNodes]);
+
+  const currentNode = nodes[currentNodeIndex];
+  const isLastNode = currentNodeIndex === nodes.length - 1;
+
+  // Устанавливаем currentLevel для каждого узла
+  useEffect(() => {
+    if (currentNode) setLevel(`levelNP${currentNodeIndex + 1}`);
+  }, [currentNodeIndex, currentNode, setLevel]);
+
+  const startTimer = useCallback(() => {
+    clearInterval(timerRef.current);
     const startTime = Date.now();
     setShowReadyButton(true);
     setTimer(0);
@@ -25,13 +47,12 @@ export default function LevelNP1() {
     timerRef.current = setInterval(() => {
       setTimer((Date.now() - startTime) / 1000);
     }, 50);
-  };
+  }, []);
 
-  // 5-секундный отсчёт перед стартом
-  const startCountdown = () => {
-    clearInterval(countdownRef.current); // очищаем старый countdown
+  const startCountdown = useCallback(() => {
+    clearInterval(countdownRef.current);
     setShowCountdown(true);
-    setCountdown(5);
+    setCountdown(3);
     setShowReadyButton(false);
     setLastResult(null);
 
@@ -45,59 +66,68 @@ export default function LevelNP1() {
         return prev - 1;
       });
     }, 1000);
-  };
+  }, [startTimer]);
 
-useEffect(() => {
-  // всё делаем через setTimeout, чтобы React не ругался
-  const timeout = setTimeout(() => {
-    // очищаем предыдущие интервалы
-    clearInterval(timerRef.current);
-    clearInterval(countdownRef.current);
+  // Старт отсчёта при смене узла
+  useEffect(() => {
+    if (!currentNode) return;
+    const timeout = setTimeout(() => startCountdown(), 0);
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(timerRef.current);
+      clearInterval(countdownRef.current);
+    };
+  }, [currentNodeIndex, currentNode, startCountdown]);
 
-    // старт отсчёта
-    setShowCountdown(true);
-    setCountdown(5);
-    setShowReadyButton(false);
-    setLastResult(null);
-
-    countdownRef.current = setInterval(() => {
-      setCountdown(prev => {
-        if (prev <= 1) {
-          clearInterval(countdownRef.current);
-          setShowCountdown(false);
-          startTimer(); // запускаем секундомер
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  }, 0);
-
-  return () => {
-    clearTimeout(timeout);
-    clearInterval(timerRef.current);
-    clearInterval(countdownRef.current);
-  };
-}, [currentNodeIndex]);
-
-
-  const handleReady = () => {
+  const handleReady = useCallback(() => {
     clearInterval(timerRef.current);
     const result = timer.toFixed(2);
     addResult(result);
     setLastResult(result);
     setShowReadyButton(false);
-  };
+  }, [timer, addResult]);
 
-  const handleNext = () => nextNode();
+  const handleNext = useCallback(() => {
+    if (!isLastNode) {
+      nextNode();
+    } else {
+      navigate("/final");
+    }
+  }, [isLastNode, nextNode, navigate]);
 
-  const handleRestart = () => {
+  const handleRestart = useCallback(() => {
     clearInterval(timerRef.current);
     clearInterval(countdownRef.current);
     startCountdown();
-  };
+  }, [startCountdown]);
+
+  // Клавиши Enter и Space
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (showCountdown) return;
+
+      if (e.key === "Enter") {
+        if (showReadyButton) handleReady();
+        else handleNext();
+      }
+      if (e.key === " ") {
+        if (!showReadyButton) {
+          e.preventDefault();
+          handleRestart();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showCountdown, showReadyButton, handleReady, handleNext, handleRestart]);
+
+  if (!currentNode) return <PageWrapper>Загрузка...</PageWrapper>;
 
   return (
     <PageWrapper>
+      <h3>
+        Узел {currentNodeIndex + 1} / {nodes.length}
+      </h3>
       <h1>{currentNode.name}</h1>
       <img
         src={currentNode.image}
@@ -105,19 +135,21 @@ useEffect(() => {
         style={{ width: "300px", margin: "20px 0" }}
       />
 
-      {showCountdown && <p>Подумайте: {countdown} сек</p>}
+      {showCountdown && <p>Будьте готовы через: {countdown} сек</p>}
 
       {!showCountdown && showReadyButton && (
         <>
           <p>Секундомер: {timer.toFixed(2)} сек</p>
-          <button onClick={handleReady}>Готово</button>
+          <button onClick={handleReady}>Готово (Enter)</button>
         </>
       )}
 
       {!showCountdown && !showReadyButton && (
         <>
-          <button onClick={handleRestart}>Заново</button>
-          <button onClick={handleNext}>Следующий узел</button>
+          <button onClick={handleRestart}>Заново (Space)</button>
+          <button onClick={handleNext}>
+            {isLastNode ? "Закончить тренировку (Enter)" : "Следующий узел (Enter)"}
+          </button>
         </>
       )}
 
