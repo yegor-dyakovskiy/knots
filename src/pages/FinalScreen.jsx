@@ -21,7 +21,8 @@ export default function FinalScreen() {
 
   return (
     <PageWrapper>
-      <h1>Рейтинг по узлам</h1>
+      <h1>Результат тренировки</h1>
+      <p>Эта информация нигде не сохранятеся, если она важна - запиши или сделай снимок экрана.</p>
       {nodes.map((node, index) => {
         const nodeKey = `levelNP${index + 1}`;
         const stats = getStats(results[nodeKey]);
