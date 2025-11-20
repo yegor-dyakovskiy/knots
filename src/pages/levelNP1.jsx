@@ -2,6 +2,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import PageWrapper from "../components/PageWrapper";
 import { useGameStore } from "../store/store";
 import { useNavigate } from "react-router-dom";
+import './levelNP1.css';
 
 export default function LevelNP1() {
   const navigate = useNavigate();
@@ -124,17 +125,24 @@ useEffect(() => {
   if (!currentNode) return <PageWrapper>Загрузка...</PageWrapper>;
 
   return (
-    <PageWrapper>
-      <h3>
+    <>
+    <div className="div-level-title">
+    <h3>
         Узел {currentNodeIndex + 1} / {nodes.length}
       </h3>
       <h1>{currentNode.name}</h1>
+    </div>
+        <PageWrapper>
+      <div>
+
       <img
         src={currentNode.image}
         alt={currentNode.name}
         style={{ width: "300px", margin: "20px 0" }}
-      />
+        />
 
+        </div>
+<div>
       {showCountdown && <p>Будьте готовы через: {countdown} сек</p>}
 
       {!showCountdown && showReadyButton && (
@@ -158,6 +166,8 @@ useEffect(() => {
           Результат: {lastResult} сек
         </p>
       )}
+      </div>
     </PageWrapper>
+      </>
   );
 }
