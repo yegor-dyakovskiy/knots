@@ -125,15 +125,21 @@ useEffect(() => {
   if (!currentNode) return <PageWrapper>Загрузка...</PageWrapper>;
 
   return (
-    <>
+    <PageWrapper>
+      <button 
+        className="back-button" 
+        onClick={() => navigate(-1)}
+      >
+        Назад
+      </button>
+
     <div className="div-level-title">
     <h3>
         Узел {currentNodeIndex + 1} / {nodes.length}
       </h3>
       <h1>{currentNode.name}</h1>
     </div>
-        <PageWrapper>
-      <div>
+      <div className="">
 
       <img
         src={currentNode.image}
@@ -168,6 +174,6 @@ useEffect(() => {
       )}
       </div>
     </PageWrapper>
-      </>
+
   );
 }

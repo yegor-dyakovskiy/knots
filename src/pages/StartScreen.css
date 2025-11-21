@@ -1,0 +1,29 @@
+.start-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.start-description {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.start-button-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.start-button {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background: #43b35b;
+}
+
+.start-button:hover {
+    background: #22d348; 
+}

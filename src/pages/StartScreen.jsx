@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import PageWrapper from "../components/PageWrapper";
+import './StartScreen.css';
 
 export default function StartScreen() {
   const navigate = useNavigate();
@@ -10,17 +11,21 @@ export default function StartScreen() {
 
   return (
     <PageWrapper>
-      <h1>Привет!</h1>
-      <p>Тут ты можешь потренировать узлы и различные альп.техники на время.</p>
-      <p>Необходимый минимум для альпиниста, при составлении тренажера была использована современная программа подготовки.</p>
-      <p>Для тренировки подготовь заранее снаряжение. Например - на узлах НП-1 нужна основная веревка диаметра 9-10мм и репшнур 6-7мм на схватывающие узлы.</p>
-
+      <h1 className="start-title">Привет!</h1>
+      <div className="start-description">
+      <p>Здесь можно отработать узлы и основные альпинистские техники на время.</p>
+      <p>Тренажёр составлен на основе современной программы подготовки.</p>
+      <p>Заранее подготовь снаряжение перед запуском уровня. Например, для узлов НП-1 понадобится основная верёвка 9–10 мм и репшнур 6–7 мм для схватывающих узлов.</p>
+      </div>
+<div   className="start-button-box">
       <button
         onClick={handleStart}
-        style={{ padding: "10px 20px", fontSize: "16px", marginTop: "20px" }}
-      >
+        className="start-button"
+        >
         Перейти к выбору сложности
       </button>
+        </div>
     </PageWrapper>
   );
 }
+

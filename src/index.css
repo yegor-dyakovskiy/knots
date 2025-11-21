@@ -74,3 +74,14 @@ select {
 :focus:not(:focus-visible) {
   outline: none;
 }
+
+.back-button {
+   padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background: #43b35b;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
