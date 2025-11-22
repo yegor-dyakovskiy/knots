@@ -1,14 +1,20 @@
+import { useState } from "react";
 import PageWrapper from "../components/PageWrapper";
 import { useGameStore } from "../store/store";
 import { useNavigate } from "react-router-dom";
 
 export default function FinalScreen() {
-  const { nodes, results, resetGame } = useGameStore();
+  const { results, resetGame } = useGameStore();
   const navigate = useNavigate();
 
+  // Локальная копия результатов для отображения
+  const [localResults] = useState(results);
+  const [isExiting, setIsExiting] = useState(false);
+
   const handleRestart = () => {
-    resetGame();
-    navigate("/");
+    setIsExiting(true);       // запускаем анимацию
+    navigate("/");            // переход на главную (можно сразу)
+    resetGame();              // сброс состояния стора (результаты уже скопированы в localResults)
   };
 
   const getStats = (times = []) => {
@@ -20,24 +26,41 @@ export default function FinalScreen() {
   };
 
   return (
-    <PageWrapper>
+    <PageWrapper className={isExiting ? "fade-out" : ""}>
       <h1>Результат тренировки</h1>
-      <p>Эта информация нигде не сохранятеся, если она важна - запиши или сделай снимок экрана.</p>
-      {nodes.map((node, index) => {
-        const nodeKey = `levelNP${index + 1}`;
-        const stats = getStats(results[nodeKey]);
+      <p>
+        Эта информация нигде не сохраняется, если она важна — запиши или сделай снимок экрана.
+      </p>
+
+      {Object.keys(localResults).length === 0 && <p>Нет результатов</p>}
+
+      {Object.keys(localResults).map((levelKey) => {
+        const resultObj = localResults[levelKey];
+        const nodes = resultObj.nodes || {};
+
         return (
-          <div key={nodeKey} style={{ marginBottom: "20px" }}>
-            <h2>{node.name}</h2>
-            {stats ? (
-              <ul>
-                <li>Попытки: {stats.attempts}</li>
-                <li>Лучшее время: {stats.best} сек</li>
-                <li>Худшее время: {stats.worst} сек</li>
-                <li>Среднее время: {stats.avg} сек</li>
-              </ul>
-            ) : (
+          <div key={levelKey} style={{ marginBottom: "30px" }}>
+            {Object.keys(nodes).length === 0 ? (
               <p>Нет результатов</p>
+            ) : (
+              Object.keys(nodes).map((nodeName) => {
+                const stats = getStats(nodes[nodeName]);
+                return (
+                  <div key={nodeName} style={{ marginBottom: "15px" }}>
+                    <h3>{nodeName}</h3>
+                    {stats ? (
+                      <ul>
+                        <li>Попытки: {stats.attempts}</li>
+                        <li>Лучшее время: {stats.best} сек</li>
+                        <li>Худшее время: {stats.worst} сек</li>
+                        <li>Среднее время: {stats.avg} сек</li>
+                      </ul>
+                    ) : (
+                      <p>Нет результатов</p>
+                    )}
+                  </div>
+                );
+              })
             )}
           </div>
         );

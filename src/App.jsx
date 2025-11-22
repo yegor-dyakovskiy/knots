@@ -4,7 +4,9 @@ import StartScreen from "./pages/StartScreen";
 import LevelScreen from "./pages/LevelScreen";
 import LevelNP1 from "./pages/levelNP1";
 import LevelNP2 from "./pages/LevelNP2";
+import LevelSP1 from "./pages/LevelSP1";
 import FinalScreen from "./pages/FinalScreen"; // <-- добавляем финальный экран
+
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -16,6 +18,7 @@ function AnimatedRoutes() {
         <Route path="/level" element={<LevelScreen />} />
         <Route path="/game/levelNP1" element={<LevelNP1 />} />
         <Route path="/game/levelNP2" element={<LevelNP2 />} />
+         <Route path="/game/levelSP1" element={<LevelSP1 />} />
         <Route path="/final" element={<FinalScreen />} />
       </Routes>
     </AnimatePresence>

@@ -2,9 +2,9 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import PageWrapper from "../components/PageWrapper";
 import { useGameStore } from "../store/store";
 import { useNavigate } from "react-router-dom";
-import "./levelNP1.css"; // можно оставить тот же CSS
+import "./levelNP1.css"; // оставляем тот же CSS, если стили одинаковы
 
-export default function LevelNP2() {
+export default function LevelSP1() {
   const navigate = useNavigate();
 
   const {
@@ -17,10 +17,10 @@ export default function LevelNP2() {
   } = useGameStore();
 
   // ============================================================
-  // 1) Устанавливаем сложность medium при монтировании
+  // 1) Устанавливаем сложность hard при монтировании
   // ============================================================
   useEffect(() => {
-    setDifficulty("medium");
+    setDifficulty("hard");
   }, [setDifficulty]);
 
   // ============================================================
@@ -56,7 +56,7 @@ export default function LevelNP2() {
   // ============================================================
   useEffect(() => {
     if (currentNode) {
-      setLevel(`levelNP2-${currentNodeIndex + 1}`);
+      setLevel(`levelSP1-${currentNodeIndex + 1}`);
     }
   }, [currentNodeIndex, currentNode, setLevel]);
 

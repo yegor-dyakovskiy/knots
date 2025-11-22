@@ -1,61 +1,73 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
-import PageWrapper from '../components/PageWrapper';
-import { useGameStore } from '../store/store';
-import { useNavigate } from 'react-router-dom';
-import './levelNP1.css';
+import { useEffect, useState, useRef, useCallback } from "react";
+import PageWrapper from "../components/PageWrapper";
+import { useGameStore } from "../store/store";
+import { useNavigate } from "react-router-dom";
+import "./levelNP1.css";
 
 export default function LevelNP1() {
     const navigate = useNavigate();
+
     const {
-        nodes: originalNodes,
+        nodes: gameNodes,
         currentNodeIndex,
         nextNode,
         addResult,
         setLevel,
     } = useGameStore();
 
-    const [nodes, setNodes] = useState([]);
+    // ============================================================
+    // 1) ОДНОРАЗОВО ПЕРЕМЕШИВАЕМ УЗЛЫ (React 19-safe)
+    // ============================================================
+    const [nodes] = useState(() => {
+        const arr = [...gameNodes];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    });
+
+    // ============================================================
+    // ЛОКАЛЬНЫЕ СОСТОЯНИЯ
+    // ============================================================
     const [showCountdown, setShowCountdown] = useState(true);
     const [countdown, setCountdown] = useState(3);
     const [timer, setTimer] = useState(0);
-    const timerRef = useRef(null);
-    const countdownRef = useRef(null);
     const [showReadyButton, setShowReadyButton] = useState(false);
     const [lastResult, setLastResult] = useState(null);
 
-    // Рандомный порядок узлов один раз при старте
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            const shuffled = [...originalNodes];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            setNodes(shuffled);
-        }, 0);
-
-        return () => clearTimeout(timeout);
-    }, [originalNodes]);
+    const timerRef = useRef(null);
+    const countdownRef = useRef(null);
 
     const currentNode = nodes[currentNodeIndex];
     const isLastNode = currentNodeIndex === nodes.length - 1;
 
-    // Устанавливаем currentLevel для каждого узла
+    // ============================================================
+    // УСТАНАВЛИВАЕМ КЛЮЧ ДЛЯ РЕЗУЛЬТАТОВ
+    // ============================================================
     useEffect(() => {
-        if (currentNode) setLevel(`levelNP${currentNodeIndex + 1}`);
+        if (currentNode) {
+            setLevel(`levelNP${currentNodeIndex + 1}`);
+        }
     }, [currentNodeIndex, currentNode, setLevel]);
 
+    // ============================================================
+    // СТАРТ ТАЙМЕРА
+    // ============================================================
     const startTimer = useCallback(() => {
         clearInterval(timerRef.current);
-        const startTime = Date.now();
+        const started = Date.now();
         setShowReadyButton(true);
         setTimer(0);
 
         timerRef.current = setInterval(() => {
-            setTimer((Date.now() - startTime) / 1000);
+            setTimer((Date.now() - started) / 1000);
         }, 50);
     }, []);
 
+    // ============================================================
+    // СТАРТ ОБРАТНОГО ОТСЧЁТА
+    // ============================================================
     const startCountdown = useCallback(() => {
         clearInterval(countdownRef.current);
         setShowCountdown(true);
@@ -75,17 +87,24 @@ export default function LevelNP1() {
         }, 1000);
     }, [startTimer]);
 
-    // Старт отсчёта при смене узла
+    // ============================================================
+    // СТАРТ НОВОГО УЗЛА
+    // ============================================================
     useEffect(() => {
         if (!currentNode) return;
-        const timeout = setTimeout(() => startCountdown(), 0);
+
+        const t = setTimeout(() => startCountdown(), 0);
+
         return () => {
-            clearTimeout(timeout);
+            clearTimeout(t);
             clearInterval(timerRef.current);
             clearInterval(countdownRef.current);
         };
     }, [currentNodeIndex, currentNode, startCountdown]);
 
+    // ============================================================
+    // КНОПКА ГОТОВО
+    // ============================================================
     const handleReady = useCallback(() => {
         clearInterval(timerRef.current);
         const result = timer.toFixed(2);
@@ -94,40 +113,50 @@ export default function LevelNP1() {
         setShowReadyButton(false);
     }, [timer, addResult]);
 
+    // ============================================================
+    // КНОПКА ДАЛЕЕ
+    // ============================================================
     const handleNext = useCallback(() => {
-        if (!isLastNode) {
-            nextNode();
-        } else {
-            navigate('/final');
-        }
+        if (!isLastNode) nextNode();
+        else navigate("/final");
     }, [isLastNode, nextNode, navigate]);
 
+    // ============================================================
+    // ПОВТОР
+    // ============================================================
     const handleRestart = useCallback(() => {
         clearInterval(timerRef.current);
         clearInterval(countdownRef.current);
         startCountdown();
     }, [startCountdown]);
 
-    // Клавиши Enter и Space
+    // ============================================================
+    // ГОРЯЧИЕ КЛАВИШИ
+    // ============================================================
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (showCountdown) return;
 
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
                 if (showReadyButton) handleReady();
                 else handleNext();
             }
-            if (e.key === ' ') {
+
+            if (e.key === " ") {
                 if (!showReadyButton) {
                     e.preventDefault();
                     handleRestart();
                 }
             }
         };
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
     }, [showCountdown, showReadyButton, handleReady, handleNext, handleRestart]);
 
+    // ============================================================
+    // UI
+    // ============================================================
     if (!currentNode) return <PageWrapper>Загрузка...</PageWrapper>;
 
     return (
@@ -135,6 +164,7 @@ export default function LevelNP1() {
             <button className="back-button" onClick={() => navigate(-1)}>
                 Назад
             </button>
+
             <PageWrapper>
                 <div className="div-level-title">
                     <h3>
@@ -142,13 +172,15 @@ export default function LevelNP1() {
                     </h3>
                     <h1>{currentNode.name}</h1>
                 </div>
-                <div className="">
+
+                <div>
                     <img
                         src={currentNode.image}
                         alt={currentNode.name}
-                        style={{ width: '300px', margin: '20px 0' }}
+                        style={{ width: "300px", margin: "20px 0" }}
                     />
                 </div>
+
                 <div>
                     {showCountdown && <p>Будьте готовы через: {countdown} сек</p>}
 
@@ -164,14 +196,14 @@ export default function LevelNP1() {
                             <button onClick={handleRestart}>Заново (Space)</button>
                             <button onClick={handleNext}>
                                 {isLastNode
-                                    ? 'Закончить тренировку (Enter)'
-                                    : 'Следующий узел (Enter)'}
+                                    ? "Закончить тренировку (Enter)"
+                                    : "Следующий узел (Enter)"}
                             </button>
                         </>
                     )}
 
                     {lastResult && (
-                        <p style={{ marginTop: '10px', fontWeight: 'bold' }}>
+                        <p style={{ marginTop: "10px", fontWeight: "bold" }}>
                             Результат: {lastResult} сек
                         </p>
                     )}
