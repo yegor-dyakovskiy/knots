@@ -19,14 +19,15 @@ export default function LevelScreen() {
                 <h1 className="level-title">Выбери уровень</h1>
 
                 <div className="level-description">
-                    <p>После выбора сложности сразу начнётся отсчёт на выполнение задания. Подготовься.</p>
+                    <p>После выбора уровня сразу начнётся отсчёт на выполнение задания. Подготовься.</p>
                     <p>Каждый узел можно тренировать комфортное количество раз, в конце тренировки будет подсчёт результатов.</p>
                 </div>
 
                 <div className="level-button-box">
-                    <button className="level-button" onClick={() => handleLevelSelect('levelNP1')}>Узлы по НП-1 (Лёгкий)</button>
-                    <button className="level-button" onClick={() => handleLevelSelect('levelNP2')}>Средний</button>
-                    <button className="level-button" onClick={() => handleLevelSelect('levelSP1')}>Сложный</button>
+                    <button className="level-button" onClick={() => handleLevelSelect('levelNP1')}>Узлы по НП-1</button>
+                    <button className="level-button" onClick={() => handleLevelSelect('levelNP2')}>Узлы по НП-2</button>
+                    <button className="level-button" onClick={() => handleLevelSelect('levelSP1')}>Узлы по СП-1</button>
+                    <button className="level-button" onClick={() => handleLevelSelect('levelSP2')}>Узлы по СП-2</button>
                 </div>
             </PageWrapper>
         </>

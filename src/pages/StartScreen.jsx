@@ -11,7 +11,7 @@ export default function StartScreen() {
 
   return (
     <PageWrapper>
-      <h1 className="start-title">Привет!</h1>
+      <h1 className="start-title">Тренажёр альпинистских узлов и техник</h1>
       <div className="start-description">
       <p>Здесь можно отработать узлы и основные альпинистские техники на время.</p>
       <p>Тренажёр составлен на основе современной программы подготовки.</p>
@@ -22,7 +22,7 @@ export default function StartScreen() {
         onClick={handleStart}
         className="start-button"
         >
-        Перейти к выбору сложности
+        Перейти к выбору уровня
       </button>
         </div>
     </PageWrapper>

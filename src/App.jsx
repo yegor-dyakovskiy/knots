@@ -5,6 +5,7 @@ import LevelScreen from "./pages/LevelScreen";
 import LevelNP1 from "./pages/levelNP1";
 import LevelNP2 from "./pages/LevelNP2";
 import LevelSP1 from "./pages/LevelSP1";
+import LevelSP2 from "./pages/LevelSP2";
 import FinalScreen from "./pages/FinalScreen"; // <-- добавляем финальный экран
 
 
@@ -19,6 +20,7 @@ function AnimatedRoutes() {
         <Route path="/game/levelNP1" element={<LevelNP1 />} />
         <Route path="/game/levelNP2" element={<LevelNP2 />} />
          <Route path="/game/levelSP1" element={<LevelSP1 />} />
+         <Route path="/game/levelSP2" element={<LevelSP2 />} />
         <Route path="/final" element={<FinalScreen />} />
       </Routes>
     </AnimatePresence>

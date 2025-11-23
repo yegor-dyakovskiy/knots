@@ -3,4 +3,52 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 20px;
+}
+.div-level-title h1 {
+  font-size: 34px;
+}
+.div-level-title h3 {
+  font-size: 20px;
+}
+
+.knots-time-box {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+}
+
+.knot-img {
+ width: 50%;
+}
+
+.time-box {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.knot-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  background: #83b117;
+  margin: 10px;
+  background: #43b35b;
+  font-size: 20px;
+  width: 100%;
+}
+
+.knot-button:hover {
+    background: #22d348; 
+}
+
+.knot-result {
+  font-size: 20px;
+}
+.knot-text {
+  font-size: 20px;
 }

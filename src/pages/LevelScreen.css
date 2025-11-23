@@ -1,19 +1,21 @@
 .level-title {
   text-align: center;
   margin-bottom: 20px;
+  font-size: 34px;
 }
 
 .level-description {
   width: 100%;
   margin: 0 auto;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  font-size: 20px;
 }
 
 .level-button-box {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
+  justify-content: center;
 }
 
 .level-button {
@@ -22,6 +24,7 @@
     justify-content: center;
     align-content: center;
     background: #43b35b;
+    font-size: 20px;
 }
 
 .level-button:hover {

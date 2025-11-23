@@ -173,28 +173,27 @@ export default function LevelNP1() {
                     <h1>{currentNode.name}</h1>
                 </div>
 
-                <div>
+                <div className="knots-time-box">
                     <img
                         src={currentNode.image}
                         alt={currentNode.name}
-                        style={{ width: "300px", margin: "20px 0" }}
+                        className="knot-img"
                     />
-                </div>
 
-                <div>
-                    {showCountdown && <p>Будьте готовы через: {countdown} сек</p>}
+                <div className="time-box">
+                    {showCountdown && <p className="knot-text">Будьте готовы через: {countdown} сек</p>}
 
                     {!showCountdown && showReadyButton && (
                         <>
-                            <p>Секундомер: {timer.toFixed(2)} сек</p>
-                            <button onClick={handleReady}>Готово (Enter)</button>
+                            <p className="knot-text">Секундомер: {timer.toFixed(2)} сек</p>
+                            <button className="knot-button" onClick={handleReady}>Готово (Enter)</button>
                         </>
                     )}
 
                     {!showCountdown && !showReadyButton && (
                         <>
-                            <button onClick={handleRestart}>Заново (Space)</button>
-                            <button onClick={handleNext}>
+                            <button className="knot-button" onClick={handleRestart}>Заново (Space)</button>
+                            <button className="knot-button" onClick={handleNext}>
                                 {isLastNode
                                     ? "Закончить тренировку (Enter)"
                                     : "Следующий узел (Enter)"}
@@ -203,10 +202,11 @@ export default function LevelNP1() {
                     )}
 
                     {lastResult && (
-                        <p style={{ marginTop: "10px", fontWeight: "bold" }}>
+                        <p className="knot-result">
                             Результат: {lastResult} сек
                         </p>
                     )}
+                    </div>
                 </div>
             </PageWrapper>
         </>

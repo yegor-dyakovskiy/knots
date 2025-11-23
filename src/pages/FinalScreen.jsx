@@ -26,7 +26,8 @@ export default function FinalScreen() {
   };
 
   return (
-    <PageWrapper className={isExiting ? "fade-out" : ""}>
+  <PageWrapper className={`${isExiting ? "fade-out" : ""} no-overflow`}>
+
       <h1>Результат тренировки</h1>
       <p>
         Эта информация нигде не сохраняется, если она важна — запиши или сделай снимок экрана.
@@ -66,7 +67,7 @@ export default function FinalScreen() {
         );
       })}
 
-      <button onClick={handleRestart}>Начать заново</button>
+      <button className="start-button" onClick={handleRestart}>Начать заново</button>
     </PageWrapper>
   );
 }

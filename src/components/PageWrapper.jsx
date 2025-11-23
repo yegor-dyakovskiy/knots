@@ -2,10 +2,10 @@
 import { motion } from "framer-motion";
 import './PageWrapper.css';
 
-export default function PageWrapper({ children }) {
+export default function PageWrapper({ children, className = "" }) {
   return (
     <motion.div
-      className="page-wrapper"
+      className={`page-wrapper ${className}`.trim()}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}

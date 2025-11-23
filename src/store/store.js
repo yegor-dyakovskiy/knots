@@ -26,6 +26,11 @@ export const useGameStore = create((set, get) => ({
       { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },
       // при необходимости добавь узлы высокой сложности
     ],
+    hard2: [
+      { name: "Баррел", image: "/images/barrel.jpg" },
+      { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },
+      // при необходимости добавь узлы высокой сложности
+    ],
   },
 
   // Текущие поля
@@ -54,6 +59,7 @@ export const useGameStore = create((set, get) => ({
     if (levelName === "levelNP1") difficulty = "easy";
     else if (levelName === "levelNP2") difficulty = "medium";
     else if (levelName === "levelSP1") difficulty = "hard";
+    else if (levelName === "levelSP2") difficulty = "hard2";
 
     get().setDifficulty(difficulty);
     get().setLevel(levelName);
