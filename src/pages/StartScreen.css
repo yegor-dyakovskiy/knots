@@ -1,14 +1,17 @@
 .start-title {
+    margin-top: 40px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     font-size: 34px;
+
 }
 
 .start-description {
+    
     font-size: 20px;
     width: 100%;
     margin: 0 auto;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .start-button-box {
@@ -19,14 +22,16 @@
 }
 
 .start-button {
-    padding: 10px 15px;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    background: #43b35b;
-    font-size: 20px;
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-size: 20px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: all 0.7s;
 }
-
 .start-button:hover {
-    background: #22d348; 
+  background: rgba(255,255,255,0.2);
 }

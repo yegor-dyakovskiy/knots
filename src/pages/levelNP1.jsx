@@ -174,11 +174,13 @@ export default function LevelNP1() {
                 </div>
 
                 <div className="knots-time-box">
-                    <img
-                        src={currentNode.image}
-                        alt={currentNode.name}
-                        className="knot-img"
-                    />
+                    <div className="image-wrapper">
+                        <img
+                            src={currentNode.image}
+                            alt={currentNode.name}
+                            className="knot-img"
+                        />
+                    </div>
 
                 <div className="time-box">
                     {showCountdown && <p className="knot-text">Будьте готовы через: {countdown} сек</p>}
@@ -190,6 +192,11 @@ export default function LevelNP1() {
                         </>
                     )}
 
+                    {lastResult && (
+                        <p className="knot-result">
+                            Результат: {lastResult} сек
+                        </p>
+                    )}
                     {!showCountdown && !showReadyButton && (
                         <>
                             <button className="knot-button" onClick={handleRestart}>Заново (Space)</button>
@@ -201,11 +208,6 @@ export default function LevelNP1() {
                         </>
                     )}
 
-                    {lastResult && (
-                        <p className="knot-result">
-                            Результат: {lastResult} сек
-                        </p>
-                    )}
                     </div>
                 </div>
             </PageWrapper>

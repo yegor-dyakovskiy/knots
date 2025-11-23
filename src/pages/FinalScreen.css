@@ -1,0 +1,31 @@
+.final-text {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.final-title {
+    font-size: 34px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.final-box-result-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.final-knot-result {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    background: #a16464;
+    padding: 10px;
+    width: 30%;
+}
+
+.margin-center {
+    margin: 0 auto;
+}

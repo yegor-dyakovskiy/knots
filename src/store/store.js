@@ -4,7 +4,7 @@ export const useGameStore = create((set, get) => ({
   // Наборы узлов по уровням сложности
   levels: {
     easy: [
-   /*    { name: "Восьмерка", image: "/images/eight.jpg" },
+      { name: "Восьмерка", image: "/images/eight.jpg" },
       { name: "Проводник", image: "/images/provodnik.jpg" },
       { name: "Грейпвайн", image: "/images/grapewine.jpg" },
       { name: "Дубовый", image: "/images/duboviy.jpg" },
@@ -12,7 +12,7 @@ export const useGameStore = create((set, get) => ({
       { name: "Контрольный узел (Баррел)", image: "/images/barrel1.jpeg" },
       { name: "Баррел", image: "/images/barrel.jpg" },
       { name: "Прусик", image: "/images/prussik.jpg" },
-      { name: "Обмоточный", image: "/images/france.jpg" }, */
+      { name: "Обмоточный", image: "/images/france.jpg" }, 
       { name: "Австрийский схватывающий", image: "/images/austrian.jpg" },
       { name: "Стремя", image: "/images/stremya.jpg" },
       { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },

@@ -14,20 +14,23 @@
 .level-button-box {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
   justify-content: center;
 }
 
 .level-button {
-    padding: 10px 15px;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    background: #43b35b;
-    font-size: 20px;
+ background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 7px 20px;
+  border-radius: 10px;
+  font-size: 20px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: all 0.7s;
 }
 
 .level-button:hover {
-    background: #22d348; 
+  background: rgba(255,255,255,0.2);
 }
 
