@@ -4,30 +4,30 @@ export const useGameStore = create((set, get) => ({
   // Наборы узлов по уровням сложности
   levels: {
     easy: [
-      { name: "Восьмерка", image: "/images/eight.jpg" },
-      { name: "Проводник", image: "/images/provodnik.jpg" },
+      { name: "Восьмерка одним концом", image: "/images/eight.png" },
+     /*  { name: "Восьмерка", image: "/images/eight.png" },
+      { name: "Проводник", image: "/images/provodnik.png" },
       { name: "Грейпвайн", image: "/images/grapewine.jpg" },
       { name: "Дубовый", image: "/images/duboviy.jpg" },
-      { name: "Восьмерка одним концом", image: "/images/eight1.jpeg" },
       { name: "Контрольный узел (Баррел)", image: "/images/barrel1.jpeg" },
-      { name: "Баррел", image: "/images/barrel.jpg" },
-      { name: "Прусик", image: "/images/prussik.jpg" },
-      { name: "Обмоточный", image: "/images/france.jpg" }, 
+      { name: "Баррел", image: "/images/barrel.jpeg" },
+      { name: "Прусик", image: "/images/prussik.jpeg" },
+      { name: "Обмоточный французский", image: "/images/france.jpeg" }, 
       { name: "Австрийский схватывающий", image: "/images/austrian.jpg" },
       { name: "Стремя", image: "/images/stremya.jpg" },
-      { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },
+      { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" }, */
     ],
     medium: [
       { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },
       // можно добавить дополнительные узлы средней сложности
     ],
     hard: [
-      { name: "Баррел", image: "/images/barrel.jpg" },
+      { name: "Баррел", image: "/images/barrel.jpeg" },
       { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },
       // при необходимости добавь узлы высокой сложности
     ],
     hard2: [
-      { name: "Баррел", image: "/images/barrel.jpg" },
+      { name: "Баррел", image: "/images/barrel.jpeg" },
       { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },
       // при необходимости добавь узлы высокой сложности
     ],

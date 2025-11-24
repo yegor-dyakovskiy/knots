@@ -63,3 +63,27 @@ height: 450px;
 .knot-text {
   font-size: 20px;
 }
+
+.digital-timer {
+    font-family: "Courier New", monospace;
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 60%;
+    margin: 0 auto 20px auto;
+    border: 2px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.digital-timer::after {
+    content: " сек";
+    font-size: 20px;
+    opacity: 0.5;
+    margin-left: 10px;
+}

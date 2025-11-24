@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import PageWrapper from "../components/PageWrapper";
 import { useGameStore } from "../store/store";
 import { useNavigate } from "react-router-dom";
-import "./levelNP1.css"; // можно оставить тот же CSS
+import "./levelNP1.css"; // оставляем тот же CSS
 
 export default function LevelNP2() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function LevelNP2() {
   } = useGameStore();
 
   // ============================================================
-  // 1) Устанавливаем сложность medium при монтировании
+  // 1) Устанавливаем сложность medium
   // ============================================================
   useEffect(() => {
     setDifficulty("medium");
@@ -52,7 +52,7 @@ export default function LevelNP2() {
   const isLastNode = currentNodeIndex === nodes.length - 1;
 
   // ============================================================
-  // Устанавливаем ключ для результатов
+  // Устанавливаем ключ уровня
   // ============================================================
   useEffect(() => {
     if (currentNode) {
@@ -169,40 +169,46 @@ export default function LevelNP2() {
           <h1>{currentNode.name}</h1>
         </div>
 
-        <div>
-          <img
-            src={currentNode.image}
-            alt={currentNode.name}
-            style={{ width: "300px", margin: "20px 0" }}
-          />
-        </div>
+        <div className="knots-time-box">
+          <div className="image-wrapper">
+            <img
+              src={currentNode.image}
+              alt={currentNode.name}
+              className="knot-img"
+            />
+          </div>
 
-        <div>
-          {showCountdown && <p>Будьте готовы через: {countdown} сек</p>}
+          <div className="time-box">
+            {showCountdown && (
+              <p className="knot-text">Будьте готовы через: {countdown} сек</p>
+            )}
 
-          {!showCountdown && showReadyButton && (
-            <>
-              <p>Секундомер: {timer.toFixed(2)} сек</p>
-              <button onClick={handleReady}>Готово (Enter)</button>
-            </>
-          )}
+            {!showCountdown && showReadyButton && (
+              <>
+                <div className="digital-timer">{timer.toFixed(2)}</div>
+                <button className="knot-button" onClick={handleReady}>
+                  Готово (Enter)
+                </button>
+              </>
+            )}
 
-          {!showCountdown && !showReadyButton && (
-            <>
-              <button onClick={handleRestart}>Заново (Space)</button>
-              <button onClick={handleNext}>
-                {isLastNode
-                  ? "Закончить тренировку (Enter)"
-                  : "Следующий узел (Enter)"}
-              </button>
-            </>
-          )}
+            {lastResult && (
+              <p className="knot-result">Результат: {lastResult} сек</p>
+            )}
 
-          {lastResult && (
-            <p style={{ marginTop: "10px", fontWeight: "bold" }}>
-              Результат: {lastResult} сек
-            </p>
-          )}
+            {!showCountdown && !showReadyButton && (
+              <>
+                <button className="knot-button" onClick={handleRestart}>
+                  Заново (Space)
+                </button>
+                <button className="knot-button" onClick={handleNext}>
+                  {isLastNode
+                    ? "Закончить тренировку (Enter)"
+                    : "Следующий узел (Enter)"}
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </PageWrapper>
     </>

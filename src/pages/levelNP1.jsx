@@ -185,12 +185,14 @@ export default function LevelNP1() {
                 <div className="time-box">
                     {showCountdown && <p className="knot-text">Будьте готовы через: {countdown} сек</p>}
 
-                    {!showCountdown && showReadyButton && (
-                        <>
-                            <p className="knot-text">Секундомер: {timer.toFixed(2)} сек</p>
-                            <button className="knot-button" onClick={handleReady}>Готово (Enter)</button>
-                        </>
-                    )}
+                   {!showCountdown && showReadyButton && (
+    <>
+        <div className="digital-timer">
+            {timer.toFixed(2)}
+        </div>
+        <button className="knot-button" onClick={handleReady}>Готово (Enter)</button>
+    </>
+)}
 
                     {lastResult && (
                         <p className="knot-result">

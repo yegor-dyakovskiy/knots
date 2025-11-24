@@ -1,6 +1,7 @@
 .final-text {
     font-size: 20px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .final-title {
@@ -14,18 +15,59 @@
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .final-knot-result {
+    max-height: 100px;
     display: flex;
-    flex-wrap: wrap;
     text-align: center;
-    background: #a16464;
-    padding: 10px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    justify-content: center;
+    background: transparent;
     width: 30%;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 2px solid #fff;
+    padding: 10px;
 }
 
-.margin-center {
-    margin: 0 auto;
+.center-div {
+    display: flex;
+    justify-content: center;
+}
+
+.final-input-box {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.final-input {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background: transparent;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 10px;
+    border: 2px solid #fff;
+    padding: 15px 30px;
+}
+.final-input::placeholder {
+    color: #ffffffc2;
+}
+
+.margin-bottom40 {
+    margin-bottom: 40px;
+}
+.final-divider {
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
