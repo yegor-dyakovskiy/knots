@@ -5,7 +5,7 @@ export const useGameStore = create((set, get) => ({
   levels: {
     easy: [
       { name: "Восьмерка одним концом", image: "/images/eight.png" },
-     /*  { name: "Восьмерка", image: "/images/eight.png" },
+      { name: "Восьмерка", image: "/images/eight.png" },
       { name: "Проводник", image: "/images/provodnik.png" },
       { name: "Грейпвайн", image: "/images/grapewine.jpg" },
       { name: "Дубовый", image: "/images/duboviy.jpg" },
@@ -13,17 +13,24 @@ export const useGameStore = create((set, get) => ({
       { name: "Баррел", image: "/images/barrel.jpeg" },
       { name: "Прусик", image: "/images/prussik.jpeg" },
       { name: "Обмоточный французский", image: "/images/france.jpeg" }, 
-      { name: "Австрийский схватывающий", image: "/images/austrian.jpg" },
       { name: "Стремя", image: "/images/stremya.jpg" },
-      { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" }, */
+      { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },
     ],
     medium: [
-      { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },
-      // можно добавить дополнительные узлы средней сложности
+      { name: "Австрийский схватывающий", image: "/images/austrian.jpg" },
+      { name: "Стремя одним концом", image: "/images/stremya.jpg" },
+      { name: "Полусхват", image: "/images/polushvat.jpeg" },
+      { name: "Австрийский проводник", image: "/images/austrianprovodnik.jpeg" },
     ],
     hard: [
-      { name: "Баррел", image: "/images/barrel.jpeg" },
-      { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },
+      { name: "Булинь", image: "/images/boolean.jpeg" },
+      { name: "Мунтера-Мула", image: "/images/muntermula.jpeg" },
+      { name: "Рифовый (Мула)", image: "/images/rifoviy.jpeg" },
+      { name: "Штык", image: "/images/shtyk.jpeg" },
+      { name: "Двойной УИАА", image: "/images/uiaadvoinoi.jpeg" },
+      { name: "Супер УИАА", image: "/images/uiaasuper.jpeg" },
+      { name: "Гарда", image: "/images/garda.jpeg" },
+      { name: "Брамшкотовый", image: "/images/bramshkot.jpeg" },
       // при необходимости добавь узлы высокой сложности
     ],
     hard2: [

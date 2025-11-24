@@ -71,3 +71,9 @@
     margin-bottom: 20px;
     margin-top: 20px;
 }
+.final-quote-box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}

@@ -26,8 +26,8 @@ export default function LevelScreen() {
                 <div className="level-button-box">
                     <button className="level-button" onClick={() => handleLevelSelect('levelNP1')}>Узлы по НП-1</button>
                     <button className="level-button" onClick={() => handleLevelSelect('levelNP2')}>Узлы по НП-2</button>
-                    <button className="level-button" onClick={() => handleLevelSelect('levelSP1')}>Узлы по СП-1</button>
-                    <button className="level-button" onClick={() => handleLevelSelect('levelSP2')}>Узлы по СП-2</button>
+                    <button className="level-button" onClick={() => handleLevelSelect('levelSP1')}>Узлы по СП</button>
+                   {/*  <button className="level-button" onClick={() => handleLevelSelect('levelSP2')}>Узлы по СП-2</button> */}
                 </div>
             </PageWrapper>
         </>
