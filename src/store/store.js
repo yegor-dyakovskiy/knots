@@ -11,7 +11,7 @@ export const useGameStore = create((set, get) => ({
       { name: "Дубовый", image: "/images/duboviy.jpg" },
       { name: "Контрольный узел (Баррел)", image: "/images/barrel1.jpeg" },
       { name: "Баррел", image: "/images/barrel.jpeg" },
-      { name: "Прусик", image: "/images/prussik.jpeg" },
+      { name: "Прусик", image: "/images/prusik.jpeg" },
       { name: "Обмоточный французский", image: "/images/france.jpeg" }, 
       { name: "Стремя", image: "/images/stremya.jpg" },
       { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },

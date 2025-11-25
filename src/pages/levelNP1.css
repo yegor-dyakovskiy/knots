@@ -87,3 +87,95 @@ height: 450px;
     opacity: 0.5;
     margin-left: 10px;
 }
+
+
+@media (max-width: 900px) {
+.div-level-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.div-level-title h1 {
+  font-size: 24px;
+}
+.div-level-title h3 {
+  font-size: 16px;
+}
+
+.knots-time-box {
+  display: flex;
+ flex-direction: column;
+  gap: 10px;
+}
+
+.image-wrapper {
+width: 100%;
+height: 350px;
+  overflow: hidden;
+}
+.knot-img {
+ width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.time-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.knot-button {
+ background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 10px;
+  font-size: 16px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: all 0.7s;
+  width: 100%;
+  margin: 0px;
+}
+
+.knot-button:hover {
+   background: rgba(255,255,255,0.2);
+}
+
+.knot-result {
+  font-size: 16px;
+}
+.knot-text {
+  font-size: 16px;
+}
+
+.digital-timer {
+    font-family: "Courier New", monospace;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto 10px auto;
+    border: 2px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.digital-timer::after {
+    content: " сек";
+    font-size: 16px;
+    opacity: 0.5;
+    margin-left: 10px;
+}
+}

@@ -35,3 +35,45 @@
 .start-button:hover {
   background: rgba(255,255,255,0.2);
 }
+
+
+@media (max-width: 900px) {
+ .start-title {
+    margin-top: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+
+}
+
+.start-description {   
+    font-size: 16px;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.start-button-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.start-button {
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: all 0.7s;
+}
+.start-button:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+
+}

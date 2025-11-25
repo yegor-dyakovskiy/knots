@@ -11,3 +11,10 @@ overflow: hidden;
       overflow: visible;
   height: auto; 
 }
+
+@media (max-width: 900px) {
+  .page-wrapper{
+    overflow: auto;
+    padding: 10px;
+  }
+}
