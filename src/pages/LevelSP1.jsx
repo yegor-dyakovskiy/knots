@@ -2,7 +2,8 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import PageWrapper from "../components/PageWrapper";
 import { useGameStore } from "../store/store";
 import { useNavigate } from "react-router-dom";
-import "./levelNP1.css"; // оставляем тот же CSS
+import CountdownOverlay from "../components/CountdownOverlay";
+import "./levelNP1.css";
 
 export default function LevelSP1() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function LevelSP1() {
   // 2) Однократно перемешиваем узлы
   // ============================================================
   const [nodes] = useState(() => {
-    if (!gameNodes || !gameNodes.length) return [];
+    if (!gameNodes?.length) return [];
     const arr = [...gameNodes];
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -39,14 +40,12 @@ export default function LevelSP1() {
   // ============================================================
   // Локальные состояния
   // ============================================================
-  const [showCountdown, setShowCountdown] = useState(true);
-  const [countdown, setCountdown] = useState(3);
+  const [showCountdown, setShowCountdown] = useState(false);
   const [timer, setTimer] = useState(0);
   const [showReadyButton, setShowReadyButton] = useState(false);
   const [lastResult, setLastResult] = useState(null);
 
   const timerRef = useRef(null);
-  const countdownRef = useRef(null);
 
   const currentNode = nodes[currentNodeIndex];
   const isLastNode = currentNodeIndex === nodes.length - 1;
@@ -55,10 +54,21 @@ export default function LevelSP1() {
   // Устанавливаем ключ уровня
   // ============================================================
   useEffect(() => {
-    if (currentNode) {
-      setLevel(`levelSP1-${currentNodeIndex + 1}`);
-    }
+    if (currentNode) setLevel(`levelSP1-${currentNodeIndex + 1}`);
   }, [currentNodeIndex, currentNode, setLevel]);
+
+  // ============================================================
+  // Сброс CountdownOverlay при смене узла
+  // ============================================================
+  useEffect(() => {
+    if (!currentNode) return;
+    const t = setTimeout(() => {
+      setShowCountdown(true);
+      setShowReadyButton(false);
+      setLastResult(null);
+    }, 0);
+    return () => clearTimeout(t);
+  }, [currentNodeIndex, currentNode]);
 
   // ============================================================
   // Таймер
@@ -73,36 +83,6 @@ export default function LevelSP1() {
       setTimer((Date.now() - started) / 1000);
     }, 50);
   }, []);
-
-  const startCountdown = useCallback(() => {
-    clearInterval(countdownRef.current);
-    setShowCountdown(true);
-    setCountdown(3);
-    setShowReadyButton(false);
-    setLastResult(null);
-
-    countdownRef.current = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(countdownRef.current);
-          setShowCountdown(false);
-          startTimer();
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  }, [startTimer]);
-
-  useEffect(() => {
-    if (!currentNode) return;
-    const t = setTimeout(() => startCountdown(), 0);
-
-    return () => {
-      clearTimeout(t);
-      clearInterval(timerRef.current);
-      clearInterval(countdownRef.current);
-    };
-  }, [currentNodeIndex, currentNode, startCountdown]);
 
   // ============================================================
   // Кнопки
@@ -121,10 +101,10 @@ export default function LevelSP1() {
   }, [isLastNode, nextNode, navigate]);
 
   const handleRestart = useCallback(() => {
-    clearInterval(timerRef.current);
-    clearInterval(countdownRef.current);
-    startCountdown();
-  }, [startCountdown]);
+    setShowCountdown(true);
+    setShowReadyButton(false);
+    setLastResult(null);
+  }, []);
 
   // ============================================================
   // Горячие клавиши
@@ -180,7 +160,13 @@ export default function LevelSP1() {
 
           <div className="time-box">
             {showCountdown && (
-              <p className="knot-text">Будьте готовы через: {countdown} сек</p>
+              <CountdownOverlay
+                start={3}
+                onComplete={() => {
+                  setShowCountdown(false);
+                  startTimer();
+                }}
+              />
             )}
 
             {!showCountdown && showReadyButton && (

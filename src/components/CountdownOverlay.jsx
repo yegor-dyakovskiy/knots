@@ -40,7 +40,7 @@ const styles = {
   overlay: {
     position: "fixed",
     inset: 0,
-    backgroundColor: "rgba(0,0,0,0.8)",
+    backgroundColor: "rgba(0,0,0,0.6)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
