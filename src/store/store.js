@@ -4,39 +4,37 @@ export const useGameStore = create((set, get) => ({
   // Наборы узлов по уровням сложности
   levels: {
     easy: [
-      { name: "Восьмерка одним концом", image: "/images/eight.png" },
-      { name: "Восьмерка", image: "/images/eight.png" },
-      { name: "Проводник", image: "/images/provodnik.png" },
+      { name: "Восьмерка одним концом", image: "/images/eight.jpg" },
+      { name: "Восьмерка", image: "/images/eight.jpg" },
+      { name: "Проводник", image: "/images/provodnik.jpg" },
       { name: "Грейпвайн", image: "/images/grapewine.jpg" },
       { name: "Дубовый", image: "/images/duboviy.jpg" },
-      { name: "Контрольный узел (Баррел)", image: "/images/barrel1.jpeg" },
-      { name: "Баррел", image: "/images/barrel.jpeg" },
-      { name: "Прусик", image: "/images/prusik.jpeg" },
-      { name: "Обмоточный французский", image: "/images/france.jpeg" }, 
+      { name: "Контрольный узел (Баррел)", image: "/images/barrel1.jpg" },
+      { name: "Баррел", image: "/images/barrel.jpg" },
+      { name: "Прусик", image: "/images/prusik.jpg" },
+      { name: "Обмоточный французский", image: "/images/france.jpg" },
       { name: "Стремя", image: "/images/stremya.jpg" },
       { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },
     ],
     medium: [
       { name: "Австрийский схватывающий", image: "/images/austrian.jpg" },
       { name: "Стремя одним концом", image: "/images/stremya.jpg" },
-      { name: "Полусхват", image: "/images/polushvat.jpeg" },
-      { name: "Австрийский проводник", image: "/images/austrianprovodnik.jpeg" },
+      { name: "Полусхват", image: "/images/polushvat.jpg" },
+      { name: "Австрийский проводник", image: "/images/austrianprovodnik.jpg" },
     ],
     hard: [
-      { name: "Булинь", image: "/images/boolean.jpeg" },
+      { name: "Булинь", image: "/images/boolean.jpg" },
       { name: "Мунтера-Мула", image: "/images/muntermula.jpeg" },
-      { name: "Рифовый (Мула)", image: "/images/rifoviy.jpeg" },
-      { name: "Штык", image: "/images/shtyk.jpeg" },
-      { name: "Двойной УИАА", image: "/images/uiaadvoinoi.jpeg" },
-      { name: "Супер УИАА", image: "/images/uiaasuper.jpeg" },
-      { name: "Гарда", image: "/images/garda.jpeg" },
-      { name: "Брамшкотовый", image: "/images/bramshkot.jpeg" },
-      // при необходимости добавь узлы высокой сложности
+      { name: "Рифовый (Мула)", image: "/images/rifoviy.jpg" },
+      { name: "Штык", image: "/images/shtyk.jpg" },
+      { name: "Двойной УИАА", image: "/images/uiaadvoinoi.jpg" },
+      { name: "Супер УИАА", image: "/images/uiaasuper.jpg" },
+      { name: "Гарда", image: "/images/garda.jpg" },
+      { name: "Брамшкотовый", image: "/images/bramshkot.jpg" },
     ],
     hard2: [
-      { name: "Баррел", image: "/images/barrel.jpeg" },
+      { name: "Баррел", image: "/images/barrel.jpg" },
       { name: "УИАА (Мунтера)", image: "/images/uiaa.jpg" },
-      // при необходимости добавь узлы высокой сложности
     ],
   },
 
@@ -44,8 +42,12 @@ export const useGameStore = create((set, get) => ({
   nodes: [],
   currentNodeIndex: 0,
   currentLevel: null,
-  results: {}, // { difficulty, nodes: { [nodeName]: [times] } }
+  results: {},
   difficulty: "easy",
+
+  // ⚡️ Добавлено: статус загрузки
+  loading: true,
+  setLoading: (value) => set({ loading: value }),
 
   // Инициализация nodes (по умолчанию easy)
   _init: () => {
@@ -81,7 +83,6 @@ export const useGameStore = create((set, get) => ({
           : state.currentNodeIndex,
     })),
 
-  // Добавляем результат под ключом currentLevel и конкретного узла
   addResult: (time) => {
     const state = get();
     const levelKey = state.currentLevel;
@@ -106,7 +107,8 @@ export const useGameStore = create((set, get) => ({
     });
   },
 
-  resetGame: () => set({ currentNodeIndex: 0, currentLevel: null, results: {} }),
+  resetGame: () =>
+    set({ currentNodeIndex: 0, currentLevel: null, results: {} }),
 }));
 
 // Автоинициализация
