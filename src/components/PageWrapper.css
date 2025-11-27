@@ -11,6 +11,9 @@ padding-bottom: 40px;
       overflow: visible;
   height: auto; 
 }
+/* .page-wrapper-BG-guide {
+    background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
+} */
 
 @media (max-width: 900px) {
   .page-wrapper{

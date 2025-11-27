@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import PageWrapper from "../components/PageWrapper";
-import { useGameStore } from "../store/store";
+import PageWrapper from "../../components/PageWrapper";
+import { useGameStore } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import "./levelNP1.css"; // оставляем тот же CSS
 

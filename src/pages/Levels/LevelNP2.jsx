@@ -1,25 +1,28 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import PageWrapper from "../components/PageWrapper";
-import { useGameStore } from "../store/store";
+import PageWrapper from "../../components/PageWrapper";
+import { useGameStore } from "../../store/store";
 import { useNavigate } from "react-router-dom";
-import CountdownOverlay from "../components/CountdownOverlay";
+import CountdownOverlay from "../../components/CountdownOverlay";
 import "./levelNP1.css";
 
 export default function LevelNP2() {
   const navigate = useNavigate();
+
   const {
     nodes: gameNodes,
     currentNodeIndex,
     nextNode,
     addResult,
     setLevel,
-    setDifficulty,
   } = useGameStore();
 
-  // Устанавливаем сложность
-  useEffect(() => setDifficulty("medium"), [setDifficulty]);
+  // 🔹 Новая логика: ждём загрузки узлов, затем сбрасываем результаты и задаём сложность
+useEffect(() => {
+  // 🔹 При заходе на уровень полностью сбрасываем все результаты игры
+  useGameStore.getState().resetGame(); 
+}, []);
 
-  // Перемешиваем узлы один раз
+  // 🔹 Перемешиваем узлы один раз
   const [nodes] = useState(() => {
     if (!gameNodes?.length) return [];
     const arr = [...gameNodes];
@@ -39,12 +42,12 @@ export default function LevelNP2() {
   const currentNode = nodes[currentNodeIndex];
   const isLastNode = currentNodeIndex === nodes.length - 1;
 
-  // Устанавливаем ключ уровня
+  // 🔹 Устанавливаем ключ уровня
   useEffect(() => {
     if (currentNode) setLevel(`levelNP2-${currentNodeIndex + 1}`);
   }, [currentNodeIndex, currentNode, setLevel]);
 
-  // Сброс CountdownOverlay при смене узла
+  // 🔹 Сбрасываем CountdownOverlay при смене узла
   useEffect(() => {
     if (!currentNode) return;
     const t = setTimeout(() => {
@@ -61,13 +64,10 @@ export default function LevelNP2() {
     const started = Date.now();
     setShowReadyButton(true);
     setTimer(0);
-
-    timerRef.current = setInterval(() => {
-      setTimer((Date.now() - started) / 1000);
-    }, 50);
+    timerRef.current = setInterval(() => setTimer((Date.now() - started) / 1000), 50);
   }, []);
 
-  // Кнопка "Готово"
+  // Кнопки
   const handleReady = useCallback(() => {
     clearInterval(timerRef.current);
     const result = timer.toFixed(2);
@@ -76,13 +76,11 @@ export default function LevelNP2() {
     setShowReadyButton(false);
   }, [timer, addResult]);
 
-  // Кнопка "Далее"
   const handleNext = useCallback(() => {
     if (!isLastNode) nextNode();
     else navigate("/final");
   }, [isLastNode, nextNode, navigate]);
 
-  // Кнопка "Повтор"
   const handleRestart = useCallback(() => {
     setShowCountdown(true);
     setShowReadyButton(false);
@@ -113,27 +111,21 @@ export default function LevelNP2() {
 
   if (!currentNode) return <PageWrapper>Загрузка...</PageWrapper>;
 
+  const isMobile = window.innerWidth < 900;
+
   return (
     <>
-      <button className="back-button" onClick={() => navigate(-1)}>
-        Назад
-      </button>
+      <button className="back-button" onClick={() => navigate(-1)}>Назад</button>
 
       <PageWrapper>
         <div className="div-level-title">
-          <h3>
-            Узел {currentNodeIndex + 1} / {nodes.length}
-          </h3>
+          <h3>Узел {currentNodeIndex + 1} / {nodes.length}</h3>
           <h1>{currentNode.name}</h1>
         </div>
 
         <div className="knots-time-box">
           <div className="image-wrapper">
-            <img
-              src={currentNode.image}
-              alt={currentNode.name}
-              className="knot-img"
-            />
+            <img src={currentNode.image} alt={currentNode.name} className="knot-img" />
           </div>
 
           <div className="time-box">
@@ -151,24 +143,22 @@ export default function LevelNP2() {
               <>
                 <div className="digital-timer">{timer.toFixed(2)}</div>
                 <button className="knot-button" onClick={handleReady}>
-                  Готово (Enter)
+                  Готово { !isMobile && "(Enter)" }
                 </button>
               </>
             )}
 
-            {lastResult && (
-              <p className="knot-result">Результат: {lastResult} сек</p>
-            )}
+            {lastResult && <p className="knot-result">Результат: {lastResult} сек</p>}
 
             {!showCountdown && !showReadyButton && (
               <>
                 <button className="knot-button" onClick={handleRestart}>
-                  Заново (Space)
+                  Заново { !isMobile && "(Space)" }
                 </button>
                 <button className="knot-button" onClick={handleNext}>
                   {isLastNode
-                    ? "Закончить тренировку (Enter)"
-                    : "Следующий узел (Enter)"}
+                    ? `Закончить тренировку${!isMobile ? " (Enter)" : ""}`
+                    : `Следующий узел${!isMobile ? " (Enter)" : ""}`}
                 </button>
               </>
             )}

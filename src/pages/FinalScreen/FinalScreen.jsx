@@ -1,6 +1,6 @@
 import { useState } from "react";
-import PageWrapper from "../components/PageWrapper";
-import { useGameStore } from "../store/store";
+import PageWrapper from "../../components/PageWrapper";
+import { useGameStore } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import "./FinalScreen.css";
 

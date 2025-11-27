@@ -2,13 +2,14 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
 import { useGameStore } from "./store/store";
-import StartScreen from "./pages/StartScreen";
-import LevelScreen from "./pages/LevelScreen";
-import LevelNP1 from "./pages/levelNP1";
-import LevelNP2 from "./pages/LevelNP2";
-import LevelSP1 from "./pages/LevelSP1";
-import LevelSP2 from "./pages/LevelSP2";
-import FinalScreen from "./pages/FinalScreen";
+import StartScreen from "./pages/StartScreen/StartScreen";
+import LevelScreen from "./pages/LevelScreen/LevelScreen";
+import LevelNP1 from "./pages/Levels/levelNP1";
+import LevelNP2 from "./pages/Levels/LevelNP2";
+import LevelSP1 from "./pages/Levels/LevelSP1";
+import LevelSP2 from "./pages/Levels/LevelSP2";
+import FinalScreen from "./pages/FinalScreen/FinalScreen";
+import KnotsGuide from "./pages/KnotsGuide/KnotsGuide";
 
 // Функция предзагрузки изображений
 const preloadImage = (src) =>
@@ -25,6 +26,7 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<StartScreen />} />
+        <Route path="/knots-guide" element={<KnotsGuide />} />
         <Route path="/level" element={<LevelScreen />} />
         <Route path="/game/levelNP1" element={<LevelNP1 />} />
         <Route path="/game/levelNP2" element={<LevelNP2 />} />

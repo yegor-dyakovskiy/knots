@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import PageWrapper from "../components/PageWrapper";
-import { useGameStore } from "../store/store";
+import PageWrapper from "../../components/PageWrapper";
+import { useGameStore } from "../../store/store";
 import { useNavigate } from "react-router-dom";
-import CountdownOverlay from "../components/CountdownOverlay";
+import CountdownOverlay from "../../components/CountdownOverlay";
 import "./levelNP1.css";
 
 export default function LevelSP1() {
@@ -14,19 +14,14 @@ export default function LevelSP1() {
     nextNode,
     addResult,
     setLevel,
-    setDifficulty,
   } = useGameStore();
 
-  // ============================================================
-  // 1) Устанавливаем сложность hard
-  // ============================================================
-  useEffect(() => {
-    setDifficulty("hard");
-  }, [setDifficulty]);
+useEffect(() => {
+  // 🔹 При заходе на уровень полностью сбрасываем все результаты игры
+  useGameStore.getState().resetGame(); 
+}, []);
 
-  // ============================================================
-  // 2) Однократно перемешиваем узлы
-  // ============================================================
+  // Однократно перемешиваем узлы
   const [nodes] = useState(() => {
     if (!gameNodes?.length) return [];
     const arr = [...gameNodes];
@@ -37,29 +32,21 @@ export default function LevelSP1() {
     return arr;
   });
 
-  // ============================================================
-  // Локальные состояния
-  // ============================================================
   const [showCountdown, setShowCountdown] = useState(false);
   const [timer, setTimer] = useState(0);
   const [showReadyButton, setShowReadyButton] = useState(false);
   const [lastResult, setLastResult] = useState(null);
 
   const timerRef = useRef(null);
-
   const currentNode = nodes[currentNodeIndex];
   const isLastNode = currentNodeIndex === nodes.length - 1;
 
-  // ============================================================
   // Устанавливаем ключ уровня
-  // ============================================================
   useEffect(() => {
     if (currentNode) setLevel(`levelSP1-${currentNodeIndex + 1}`);
   }, [currentNodeIndex, currentNode, setLevel]);
 
-  // ============================================================
   // Сброс CountdownOverlay при смене узла
-  // ============================================================
   useEffect(() => {
     if (!currentNode) return;
     const t = setTimeout(() => {
@@ -70,23 +57,16 @@ export default function LevelSP1() {
     return () => clearTimeout(t);
   }, [currentNodeIndex, currentNode]);
 
-  // ============================================================
   // Таймер
-  // ============================================================
   const startTimer = useCallback(() => {
     clearInterval(timerRef.current);
     const started = Date.now();
     setShowReadyButton(true);
     setTimer(0);
 
-    timerRef.current = setInterval(() => {
-      setTimer((Date.now() - started) / 1000);
-    }, 50);
+    timerRef.current = setInterval(() => setTimer((Date.now() - started) / 1000), 50);
   }, []);
 
-  // ============================================================
-  // Кнопки
-  // ============================================================
   const handleReady = useCallback(() => {
     clearInterval(timerRef.current);
     const result = timer.toFixed(2);
@@ -106,9 +86,7 @@ export default function LevelSP1() {
     setLastResult(null);
   }, []);
 
-  // ============================================================
   // Горячие клавиши
-  // ============================================================
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (showCountdown) return;
@@ -130,32 +108,23 @@ export default function LevelSP1() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [showCountdown, showReadyButton, handleReady, handleNext, handleRestart]);
 
-  // ============================================================
-  // UI
-  // ============================================================
   if (!currentNode) return <PageWrapper>Загрузка...</PageWrapper>;
+
+  const isMobile = window.innerWidth < 900;
 
   return (
     <>
-      <button className="back-button" onClick={() => navigate(-1)}>
-        Назад
-      </button>
+      <button className="back-button" onClick={() => navigate(-1)}>Назад</button>
 
       <PageWrapper>
         <div className="div-level-title">
-          <h3>
-            Узел {currentNodeIndex + 1} / {nodes.length}
-          </h3>
+          <h3>Узел {currentNodeIndex + 1} / {nodes.length}</h3>
           <h1>{currentNode.name}</h1>
         </div>
 
         <div className="knots-time-box">
           <div className="image-wrapper">
-            <img
-              src={currentNode.image}
-              alt={currentNode.name}
-              className="knot-img"
-            />
+            <img src={currentNode.image} alt={currentNode.name} className="knot-img" />
           </div>
 
           <div className="time-box">
@@ -173,24 +142,22 @@ export default function LevelSP1() {
               <>
                 <div className="digital-timer">{timer.toFixed(2)}</div>
                 <button className="knot-button" onClick={handleReady}>
-                  Готово (Enter)
+                  Готово { !isMobile && "(Enter)" }
                 </button>
               </>
             )}
 
-            {lastResult && (
-              <p className="knot-result">Результат: {lastResult} сек</p>
-            )}
+            {lastResult && <p className="knot-result">Результат: {lastResult} сек</p>}
 
             {!showCountdown && !showReadyButton && (
               <>
                 <button className="knot-button" onClick={handleRestart}>
-                  Заново (Space)
+                  Заново { !isMobile && "(Space)" }
                 </button>
                 <button className="knot-button" onClick={handleNext}>
                   {isLastNode
-                    ? "Закончить тренировку (Enter)"
-                    : "Следующий узел (Enter)"}
+                    ? `Закончить тренировку${!isMobile ? " (Enter)" : ""}`
+                    : `Следующий узел${!isMobile ? " (Enter)" : ""}`}
                 </button>
               </>
             )}

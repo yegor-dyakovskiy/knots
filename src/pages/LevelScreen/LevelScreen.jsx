@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import PageWrapper from '../components/PageWrapper';
-import { useGameStore } from '../store/store';
+import PageWrapper from '../../components/PageWrapper';
+import { useGameStore } from '../../store/store';
 import './LevelScreen.css';
 
 export default function LevelScreen() {

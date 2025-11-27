@@ -4,7 +4,7 @@ export const useGameStore = create((set, get) => ({
   // Наборы узлов по уровням сложности
   levels: {
     easy: [
-      { name: "Восьмерка одним концом", image: "/images/eight.jpg" },
+      { name: "Восьмерка одним концом", image: "/images/eight.jpg"},
       { name: "Восьмерка", image: "/images/eight.jpg" },
       { name: "Проводник", image: "/images/provodnik.jpg" },
       { name: "Грейпвайн", image: "/images/grapewine.jpg" },
@@ -104,6 +104,22 @@ export const useGameStore = create((set, get) => ({
           },
         },
       },
+    });
+  },
+
+  // 🔹 Новый метод для сброса результатов текущего уровня
+  resetLevelResults: () => {
+    const state = get();
+    const levelKey = state.currentLevel;
+    if (!levelKey) return;
+
+    set({
+      results: {
+        ...state.results,
+        [levelKey]: { ...state.results[levelKey], nodes: {} },
+      },
+      currentNodeIndex: 0,
+      currentLevel: null,
     });
   },
 

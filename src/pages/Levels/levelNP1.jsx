@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import PageWrapper from "../components/PageWrapper";
-import { useGameStore } from "../store/store";
+import PageWrapper from "../../components/PageWrapper";
+import { useGameStore } from "../../store/store";
 import { useNavigate } from "react-router-dom";
-import CountdownOverlay from "../components/CountdownOverlay";
+import CountdownOverlay from "../../components/CountdownOverlay";
 import "./levelNP1.css";
 
 export default function LevelNP1() {
@@ -16,7 +16,15 @@ export default function LevelNP1() {
         setLevel,
     } = useGameStore();
 
+    // 🔹 Новая логика: ждем загрузки узлов и сбрасываем результаты
+useEffect(() => {
+  // 🔹 При заходе на уровень полностью сбрасываем все результаты игры
+  useGameStore.getState().resetGame(); 
+}, []);
+
+    // 🔹 Перемешиваем узлы один раз
     const [nodes] = useState(() => {
+        if (!gameNodes) return [];
         const arr = [...gameNodes];
         for (let i = arr.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -25,56 +33,39 @@ export default function LevelNP1() {
         return arr;
     });
 
-    const [showCountdown, setShowCountdown] = useState(false); // сначала false
+    const [showCountdown, setShowCountdown] = useState(false);
     const [timer, setTimer] = useState(0);
     const [showReadyButton, setShowReadyButton] = useState(false);
     const [lastResult, setLastResult] = useState(null);
-
     const timerRef = useRef(null);
 
     const currentNode = nodes[currentNodeIndex];
     const isLastNode = currentNodeIndex === nodes.length - 1;
 
-    // ============================================================
-    // Устанавливаем уровень для текущего узла
-    // ============================================================
+    // 🔹 Устанавливаем ключ уровня
     useEffect(() => {
         if (currentNode) setLevel(`levelNP${currentNodeIndex + 1}`);
     }, [currentNodeIndex, currentNode, setLevel]);
 
-    // ============================================================
-    // Сбрасываем CountdownOverlay при смене узла
-    // ============================================================
+    // 🔹 Сбрасываем CountdownOverlay при смене узла
     useEffect(() => {
         if (!currentNode) return;
-
-        // используем setTimeout 0, чтобы избежать предупреждений React Strict Mode
         const t = setTimeout(() => {
             setShowCountdown(true);
             setShowReadyButton(false);
             setLastResult(null);
         }, 0);
-
         return () => clearTimeout(t);
     }, [currentNodeIndex, currentNode]);
 
-    // ============================================================
-    // Старт таймера
-    // ============================================================
     const startTimer = useCallback(() => {
         clearInterval(timerRef.current);
         const started = Date.now();
         setShowReadyButton(true);
         setTimer(0);
-
-        timerRef.current = setInterval(() => {
-            setTimer((Date.now() - started) / 1000);
-        }, 50);
+        timerRef.current = setInterval(() => setTimer((Date.now() - started) / 1000), 50);
     }, []);
 
-    // ============================================================
-    // Кнопка "Готово"
-    // ============================================================
     const handleReady = useCallback(() => {
         clearInterval(timerRef.current);
         const result = timer.toFixed(2);
@@ -83,26 +74,17 @@ export default function LevelNP1() {
         setShowReadyButton(false);
     }, [timer, addResult]);
 
-    // ============================================================
-    // Кнопка "Далее"
-    // ============================================================
     const handleNext = useCallback(() => {
         if (!isLastNode) nextNode();
         else navigate("/final");
     }, [isLastNode, nextNode, navigate]);
 
-    // ============================================================
-    // Кнопка "Повтор"
-    // ============================================================
     const handleRestart = useCallback(() => {
         setShowCountdown(true);
         setShowReadyButton(false);
         setLastResult(null);
     }, []);
 
-    // ============================================================
-    // Горячие клавиши
-    // ============================================================
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (showCountdown) return;
@@ -126,31 +108,24 @@ export default function LevelNP1() {
 
     if (!currentNode) return <PageWrapper>Загрузка...</PageWrapper>;
 
+    const isMobile = window.innerWidth < 900;
+
     return (
         <>
-            <button className="back-button" onClick={() => navigate(-1)}>
-                Назад
-            </button>
+            <button className="back-button" onClick={() => navigate(-1)}>Назад</button>
 
             <PageWrapper>
                 <div className="div-level-title">
-                    <h3>
-                        Узел {currentNodeIndex + 1} / {nodes.length}
-                    </h3>
+                    <h3>Узел {currentNodeIndex + 1} / {nodes.length}</h3>
                     <h1>{currentNode.name}</h1>
                 </div>
 
                 <div className="knots-time-box">
                     <div className="image-wrapper">
-                        <img
-                            src={currentNode.image}
-                            alt={currentNode.name}
-                            className="knot-img"
-                        />
+                        <img src={currentNode.image} alt={currentNode.name} className="knot-img" />
                     </div>
 
                     <div className="time-box">
-                        {/* ================= CountdownOverlay ================= */}
                         {showCountdown && (
                             <CountdownOverlay
                                 start={3}
@@ -165,7 +140,7 @@ export default function LevelNP1() {
                             <>
                                 <div className="digital-timer">{timer.toFixed(2)}</div>
                                 <button className="knot-button" onClick={handleReady}>
-                                    Готово (Enter)
+                                    Готово { !isMobile && "(Enter)" }
                                 </button>
                             </>
                         )}
@@ -177,12 +152,12 @@ export default function LevelNP1() {
                         {!showCountdown && !showReadyButton && (
                             <>
                                 <button className="knot-button" onClick={handleRestart}>
-                                    Заново (Space)
+                                    Заново { !isMobile && "(Space)" }
                                 </button>
                                 <button className="knot-button" onClick={handleNext}>
                                     {isLastNode
-                                        ? "Закончить тренировку (Enter)"
-                                        : "Следующий узел (Enter)"}
+                                        ? `Закончить тренировку${!isMobile ? " (Enter)" : ""}`
+                                        : `Следующий узел${!isMobile ? " (Enter)" : ""}`}
                                 </button>
                             </>
                         )}

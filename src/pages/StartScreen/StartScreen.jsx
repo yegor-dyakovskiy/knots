@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import PageWrapper from "../components/PageWrapper";
+import PageWrapper from "../../components/PageWrapper";
 import './StartScreen.css';
 
 export default function StartScreen() {
@@ -7,6 +7,9 @@ export default function StartScreen() {
 
   const handleStart = () => {
     navigate("/level"); // переходим на выбор уровня
+  };
+    const handleKnotsGuide = () => {
+    navigate("/knots-guide"); // переходим на статью
   };
 
   return (
@@ -23,6 +26,12 @@ export default function StartScreen() {
         className="start-button"
         >
         Перейти к выбору уровня
+      </button>
+      <button
+        onClick={handleKnotsGuide}
+        className="start-button"
+        >
+        Ликбез по узлам
       </button>
         </div>
     </PageWrapper>
